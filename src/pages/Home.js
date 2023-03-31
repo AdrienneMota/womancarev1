@@ -1,20 +1,38 @@
+import { useEffect, useState } from "react"
 import styled from "styled-components"
 import Header from "../components/Header"
 import Request from "../components/Request"
+import api from "../services/server"
 
 export default function Home(){
-    return(
-        <>
-          <Header/>
-          <RequestsContainer>
-            <Request/>
-            <Request/>
-            <Request/>
-            <Request/>
-            <Request/>
-            <Request/>
-          </RequestsContainer>
-        </>
+  const [requests, setRequests] = useState([])
+
+  async function getAllRequests() {
+    try {
+      const response = await api.get('/mural')
+      setRequests(response.data)  
+      console.log(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getAllRequests()
+    }, [])
+
+  return(
+    <>
+      <Header/>
+      <RequestsContainer>
+        {
+          requests?.map( (r) => (
+            <Request total={r.total} donatory={r.donatory.user_name} />
+          ))
+        }
+        
+      </RequestsContainer>
+    </>
     )
 }
 

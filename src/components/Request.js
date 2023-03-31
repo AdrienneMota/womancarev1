@@ -2,17 +2,15 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import styled from 'styled-components';
 
-export default function Request() {
+export default function Request({ total, donatory}) {
   return (
     <RequestCard>
         <Card style={{ width: '18rem' }}>
         <Card.Body>
-            <Card.Title>Marcela Mendes</Card.Title>
+            <Card.Title>{donatory}</Card.Title>
             <Card.Text>
-                <p>
-                    Valor: R$ 10,00<br/>
+                    Valor: R$ {total}<br/>
                     Status: em aberto
-                </p>
             </Card.Text>
             <Button variant="primary">Ver detalhes</Button>
         </Card.Body>
