@@ -1,8 +1,12 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-export default function Request({ total, donatory}) {
+export default function Request({ total, donatory, giver, idRequest}) {
+  let status = !!giver // transforma para booleano inverso e depois transformar para o booleano verdadeiro é uma forma de transformar um valor em booleano
+  const navigate = useNavigate()
+ 
   return (
     <RequestCard>
         <Card style={{ width: '18rem' }}>
@@ -10,9 +14,13 @@ export default function Request({ total, donatory}) {
             <Card.Title>{donatory}</Card.Title>
             <Card.Text>
                     Valor: R$ {total}<br/>
-                    Status: em aberto
+                    Status: {status? 'atendido' : 'em aberto'}
             </Card.Text>
-            <Button variant="primary">Ver detalhes</Button>
+            <Button variant="primary" 
+              onClick={() => navigate(`/details/${idRequest}`)}
+            >
+              Ver detalhes
+            </Button>
         </Card.Body>
         </Card>
     </RequestCard>

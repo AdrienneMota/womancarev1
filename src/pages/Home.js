@@ -9,7 +9,7 @@ export default function Home(){
 
   async function getAllRequests() {
     try {
-      const response = await api.get('/mural')
+      const response = await api.get('/requests')
       setRequests(response.data)  
       console.log(response.data)
     } catch (error) {
@@ -27,7 +27,7 @@ export default function Home(){
       <RequestsContainer>
         {
           requests?.map( (r) => (
-            <Request total={r.total} donatory={r.donatory.user_name} />
+            <Request key={`requests-container-${r.id}`}total={r.total} donatory={r.donatory.user_name} giver={r.giver_id} idRequest={r.id}/>
           ))
         }
         
