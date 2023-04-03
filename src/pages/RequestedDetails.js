@@ -30,17 +30,16 @@ export default function RequestedDetails() {
         <Itens>
             <h1>Listinha da {donatory}</h1>
             {
-                products.map( (i) => (
-                    <Item key={`item-conteiner-${i.id}`}>
-                        <h2>{i.product.title}</h2>
-                        <img src={i.product.image} alt="image product"/>
-                        <p>{i.product.description}</p>
-                        <p>quantidade: {i.quantity}</p>
-                        <p>preço: {i.unit_price}</p>
+                products.map( (item) => (
+                    <Item key={`item-conteiner-${item.id}`}>
+                        <h2>{item.product.title}</h2>
+                        <img src={item.product.image} alt="image product"/>
+                        <p>{item.product.description}</p>
+                        <p>quantidade: {item.quantity}</p>
+                        <p>preço: {item.unit_price}</p>
                     </Item>
                 ))
-            }
-                
+            }                
         </Itens>
         <Pedido>
             <h1>Resumo do Pedido</h1>
@@ -54,11 +53,9 @@ export default function RequestedDetails() {
 const Pedido = styled.div`
     background-color: yellow;
 `
-
 const Itens = styled.div`
     background-color: blue;
 `
-
 const Item = styled.div`
     background-color: green;
     img{
@@ -68,5 +65,6 @@ const Item = styled.div`
         border: 2px solid white;
     }
 `
+
 
 
