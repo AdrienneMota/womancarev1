@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import styled from "styled-components"
-import Header from "../components/Header"
-import Request from "../components/Request"
-import api from "../services/server"
+import Header from "../../components/Header"
+import Request from "../../components/Request"
+import api from "../../services/server"
 
 export default function Home(){
   const [requests, setRequests] = useState([])
