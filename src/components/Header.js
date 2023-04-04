@@ -12,8 +12,9 @@ export default function Header() {
         </Logo>
           <Links>
             <Link className='linkstyle' to='/'>Home</Link>
-            <Link className='linkstyle'>Minhas doações</Link>
             <Link className='linkstyle'>Sobre</Link>
+            <Link className='linkstyle'>Sing in</Link>
+            <Link className='linkstyle'>Sing up</Link>  
           </Links>
       </Container>
     </NavBar>
@@ -55,13 +56,13 @@ const Logo = styled.div`
   }
 `
 const Links = styled.div`
-  width: 40%;
+  width: 30%;
   display: flex;
   align-items:  center;
   justify-content: space-around;
   .linkstyle{
     color: #543f7b;
-    outline: none;
+    text-decoration: none;
     font-family: 'Roboto', sans-serif;  
     font-size: 18px;
   }
