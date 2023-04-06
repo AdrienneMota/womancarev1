@@ -5,6 +5,7 @@ import RequestedDetails from "./pages/DashBoard/RequestedDetails";
 import Payment from "./pages/DashBoard/payment/Payment";
 import { ToastContainer } from "react-toastify";
 import { GlobalStyle } from "./assets/style/GlobalStyle";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/details/:requestId" element={<RequestedDetails/>}/>
           <Route path="/details/payment" element={<Payment/>}/>
         </Routes>
+        <Footer/>
       </BrowserRouter>
     </>
   );

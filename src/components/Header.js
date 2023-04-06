@@ -22,7 +22,6 @@ export default function Header() {
 }
 
 const NavBar = styled.div`
-  background-color: "#ffffff" ; 
   width: 100vw;
   height: 3.5rem;
   box-shadow: 0px 0px 4px black;
@@ -31,6 +30,7 @@ const NavBar = styled.div`
   display: flex;
   align-items:center;
   justify-content: center;
+  background-color: #ffffff;
 `
 const Container = styled.div`
   width: 95%;
@@ -51,8 +51,8 @@ const Logo = styled.div`
     color: #543f7b;
   }
   img{
-    width: 40;
-    height: 32;
+    width: 40px;
+    height: 32px;
   }
 `
 const Links = styled.div`

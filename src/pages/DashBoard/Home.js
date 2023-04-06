@@ -2,10 +2,54 @@ import { useEffect, useState } from "react"
 import styled from "styled-components"
 import Request from "../../components/Request"
 import api from "../../services/server"
-import Carousel from 'react-bootstrap/Carousel'
-import firstimg from '../../assets/img/codes need coffee.png'
+import banner from '../../assets/img/banner.png'
+import Footer from '../../components/Footer'
 
 export default function Home(){
+  // const requests = [
+  //   {
+  //     id: 1,
+  //     giver_id: null,
+  //     donatory_id: 1,
+  //     total: 40.00,
+  //     donatory: { user_name: 'Joana' }
+  //   },
+  //   {
+  //     id: 2,
+  //     giver_id: null,
+  //     donatory_id: 1,
+  //     total: 40.00,
+  //     donatory: { user_name: 'Maria' }
+  //   },
+  //   {
+  //     id: 3,
+  //     giver_id: null,
+  //     donatory_id: 1,
+  //     total: 40.00,
+  //     donatory: { user_name: 'Antonia' }
+  //   },
+  //   {
+  //     id: 4,
+  //     giver_id: null,
+  //     donatory_id: 1,
+  //     total: 40.00,
+  //     donatory: { user_name: 'Eduarda' }
+  //   },
+  //   {
+  //     id: 5,
+  //     giver_id: null,
+  //     donatory_id: 1,
+  //     total: 40.00,
+  //     donatory: { user_name: 'Joaquina' }
+  //   },
+  //   {
+  //     id: 6,
+  //     giver_id: null,
+  //     donatory_id: 1,
+  //     total: 40.00,
+  //     donatory: { user_name: 'Eveline' }
+  //   }
+  // ]
   const [requests, setRequests] = useState([])
 
   async function getAllRequests() {
@@ -24,58 +68,29 @@ export default function Home(){
 
   return(
     <Container>
-      <Carousel>
-        <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src={firstimg}
-            alt="First slide"
-          />  
-        </Carousel.Item>
-        <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src={firstimg}
-            alt="Second slide"
-          />
-        </Carousel.Item>
-        <Carousel.Item>
-           <img
-            className="d-block w-100"
-            src={firstimg}
-            alt="Third slide"
-        />
-        </Carousel.Item>
-      </Carousel>
+      <Banner src={banner}/>
       <TitleSession>
         Doe agora
         <div></div>
       </TitleSession>
-      
       <RequestsContainer>
         {
           requests?.map( (r) => (
-            <Request key={`requests-container-${r.id}`}total={r.total} donatory={r.donatory.user_name} giver={r.giver_id} idRequest={r.id}/>
+            <Request key={`requests-container-${r.id}`} total={r.total} donatory={r.donatory.user_name} giver={r.giver_id} idRequest={r.id}/>
           ))
         }        
       </RequestsContainer>
-      <div className="divcard">
-
-      </div>
     </Container>   
     )
 }
 
 const Container = styled.div`
   margin-top: 5.5rem;
-  .divcard{
-    width: 18rem;
-    height: 17rem;
-    background-color: #d0bedf;
-    margin: 30px;
-    box-shadow: 10px 10px 8px rgba(0, 0, 0, 0.2), -10px 0 0.4em rgba(0, 0, 0, 0.2);
-
-  }
+`
+const Banner = styled.img`
+  width: 100vw;
+  margin-right: auto;
+  margin-left: auto;
 `
 const TitleSession = styled.div`
   display: flex;
@@ -95,7 +110,10 @@ const TitleSession = styled.div`
   }
 `
 const RequestsContainer = styled.div`
-    background-color: pink;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    /* background-color: pink ; */
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
