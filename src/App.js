@@ -17,7 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home/>}/>
           <Route path="/details/:requestId" element={<RequestedDetails/>}/>
-          <Route path="/details/payment" element={<Payment/>}/>
+          <Route path="/payment/:methodPayment" element={<Payment/>}/>
         </Routes>
         <Footer/>
       </BrowserRouter>

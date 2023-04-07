@@ -8,7 +8,6 @@ export default function Request({ total, donatory, giver, idRequest}) {
   const navigate = useNavigate()
  
   return (
-
        <Card>
         <div className="headerImg">
           <img src={iconburterfly}/>

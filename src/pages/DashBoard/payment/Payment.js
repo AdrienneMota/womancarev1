@@ -3,57 +3,44 @@ import Pix from "./MethodPayment/Pix"
 import Card from "./MethodPayment/Card"
 import styled from "styled-components"
 import { toast } from 'react-toastify';
+import { useParams } from "react-router-dom";
 
 export default function Payment() {
-    const [methodPayment, setmethodPayment] = useState("")
+    const { methodPayment } = useParams()
+    console.log(methodPayment)
 
     function submitPayment(){
         //salvar o id da doadora na tabela requests 
         toast('Pagamento Realizado com sucesso!');
     }
-    
     return (
-        <>
-           <h1>Método de pagamento</h1>
-               <div>
-                  <input 
-                    type="radio" 
-                    name="option_payment" 
-                    value="card" 
-                    onChange={(e) => {setmethodPayment(e.target.value)}}
-                  />
-                  <label htmlFor="card">cartão</label>
-              </div>
-              <div>
-                  <input 
-                    type="radio" 
-                    name="option_payment" 
-                    value="pix"
-                    onChange={(e) =>  {setmethodPayment(e.target.value)}}
-                    />
-                  <label htmlFor="pix">Pix</label>
-               </div>   
-            {
-                (methodPayment==="null")? "" 
-                   :
-                   <ContainerMethod>{
-                    (methodPayment==="pix")?
-                        <Pix></Pix>
-                        :
-                        (methodPayment==="card")?
-                        <Card></Card>
-                    :
-                    ""
-                   }
-                   </ContainerMethod>
-            }
-            <button onClick={() => submitPayment()}>FINALIZAR PAGAMENTO</button>
+        <>     
+            <ContainerMethod>
+               {
+                (methodPayment==="pix")?
+                    <Pix></Pix> : <Card></Card>  
+                }  
+                <button onClick={() => submitPayment()}>FINALIZAR PAGAMENTO</button>
+            </ContainerMethod>
         </>
     )
 }
 
 const ContainerMethod = styled.div`
-    width: 20rem;
-    background-color: blue;
-    padding: 10px
+    width: 80vw;
+    height: 100vh;
+    font-size: 'Roboto', sans-serif;
+    padding: 10px;
+    margin-top: 5.5rem;
+    margin-left: auto;
+    margin-right: auto;
+    button{
+        width: 100%;
+        height: 40px;
+        border-radius: 5px;
+        border: none;
+        background-color: #a359a0;
+        color: #f4f4f4;
+        margin-top: 2rem;
+    }
 `

@@ -12,9 +12,8 @@ export default function Header() {
         </Logo>
           <Links>
             <Link className='linkstyle' to='/'>Home</Link>
-            <Link className='linkstyle'>Sobre</Link>
-            <Link className='linkstyle'>Sing in</Link>
-            <Link className='linkstyle'>Sing up</Link>  
+            <Link className='linkstyle'>Signin</Link>
+            <Link className='linkstyle'>Signup</Link>  
           </Links>
       </Container>
     </NavBar>
