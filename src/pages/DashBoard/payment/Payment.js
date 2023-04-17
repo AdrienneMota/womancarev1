@@ -1,46 +1,36 @@
-import { useState } from "react"
 import Pix from "./MethodPayment/Pix"
 import Card from "./MethodPayment/Card"
 import styled from "styled-components"
-import { toast } from 'react-toastify';
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
+import Header from "../../../components/Header"
+import Footer from "../../../components/Footer";
 
 export default function Payment() {
     const { methodPayment } = useParams()
-    console.log(methodPayment)
+    const requestId = useParams().giver_id
+    const location = useLocation()
+    const { total, donatary } = location.state
 
-    function submitPayment(){
-        //salvar o id da doadora na tabela requests 
-        toast('Pagamento Realizado com sucesso!');
-    }
     return (
-        <>     
+        <>  
+            <Header/>
             <ContainerMethod>
                {
                 (methodPayment==="pix")?
-                    <Pix></Pix> : <Card></Card>  
+                    <Pix requestId={requestId} total={total} donatary={donatary}></Pix> : <Card requestId={requestId} total={total} donatary={donatary} ></Card>  
                 }  
-                <button onClick={() => submitPayment()}>FINALIZAR PAGAMENTO</button>
             </ContainerMethod>
+            <Footer/>
         </>
     )
 }
 
 const ContainerMethod = styled.div`
-    width: 80vw;
+    width: 90vw;
     height: 100vh;
     font-size: 'Roboto', sans-serif;
     padding: 10px;
     margin-top: 5.5rem;
     margin-left: auto;
     margin-right: auto;
-    button{
-        width: 100%;
-        height: 40px;
-        border-radius: 5px;
-        border: none;
-        background-color: #a359a0;
-        color: #f4f4f4;
-        margin-top: 2rem;
-    }
 `

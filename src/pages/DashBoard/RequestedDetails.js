@@ -4,6 +4,11 @@ import api from "../../services/server"
 import styled from "styled-components"
 import pix from "../../assets/img/pix.png"
 import card from "../../assets/img/card.png"
+import calculatorquantity from "../../helps/calculatorquantity"
+import Header from "../../components/Header"
+import Footer from "../../components/Footer"
+import { toast } from "react-toastify"
+import maskValue from "../../helps/maskvalue"
 
 export default function RequestedDetails() {
     const { requestId } = useParams()
@@ -11,96 +16,99 @@ export default function RequestedDetails() {
     const [ products, setProducts] = useState([])
     const [ methodPayment, setmethodPayment ] = useState('')
     const navigate = useNavigate()
-    
-    // async function getRequestById() {
-    //     try {
-    //         const response = await api.get(`requests/${requestId}`)
-    //         setRequest(response.data)   
-    //         setProducts(response.data.product_request)
-    //     } catch (error) {
-    //         console.log(error)
-    //     }        
-    // }
+    const user = JSON.parse(localStorage.getItem("user"))
 
-    // useEffect(() => {
-    //     getRequestById()
-    // }, [])
+    
+    async function getRequestById() {
+        try {
+            const response = await api.get(`requests/${requestId}`)
+            setRequest(response.data)   
+            setProducts(response.data.product_request)
+        } catch (error) {
+            toast("Houve um erro... Tente mais tarde.")
+        }        
+    }
+    
+    function validateToken() {
+        if(user.token === undefined){
+            toast("Realize o login para esta operação.")
+        }else{
+            navigate(`/payment/${methodPayment}/${request.id}`, {state: { total: request.total, donatary: request.donatory.user_name}})
+        }
+    }
+
+    useEffect(() => {
+        getRequestById()
+    }, [])
 
     return (
-        <ContainerDetails>
-           <Itens>
-                <h1>Doação</h1>
-                <HeaderItens>
-                    <div className="product"></div>
-                    <div className="quantity">Quantidade</div>
-                    <div className="price">Preço</div>
-                </HeaderItens>
-                <Item>
-                    <Produto>
-                        <img src="https://http2.mlstatic.com/D_NQ_NP_641451-MLB51559464832_092022-O.webp" alt="image product"/>
-                        <div className="descricaoProduto">
-                            <h2>Absorvente com abas</h2>
-                            <p>Pacote com 8 unidades, suave.</p>
-                        </div>  
-                    </Produto>     
-                    <Quantidade>
-                        <p>2</p>
-                    </Quantidade>    
-                    <Preco>
-                    <p>10,00</p>
-                    </Preco>          
-                </Item>   
-                <Item>
-                    <Produto>
-                        <img src="https://drogariasp.vteximg.com.br/arquivos/ids/528200-1000-1000/542725---Absorvente-Always-Pink-Noturno-Abas-32-Unidades-1.jpg?v=637788304613630000" alt="image product"/>
-                        <div className="descricaoProduto">
-                            <h2>Absorvente Noturno</h2>
-                            <p>Pacote com 8 unidades, extra absorção.</p>
-                        </div>  
-                    </Produto>     
-                    <Quantidade>
-                        <p>2</p>
-                    </Quantidade>    
-                    <Preco>
-                    <p>10,00</p>
-                    </Preco>          
-                </Item>         
-           </Itens>
-            <ResumoPedido>
-                <div className="paymentMethod">
-                    <h1>Método de pagamento</h1>
-                    <div>
-                        <input 
-                            type="radio" 
-                            name="option_payment" 
-                            value="card"
-                            onChange={(e) =>  {setmethodPayment(e.target.value)}}
-                        />
-                        <img src={card}/>
-                        <span>Cartão de crédito</span>                                            
+        <>
+            <Header/>
+            <ContainerDetails>
+            <Itens>
+                    <h1>Doação</h1>
+                    <HeaderItens>
+                        <div className="product"></div>
+                        <div className="quantity">Quantidade</div>
+                        <div className="price">Preço</div>
+                    </HeaderItens>
+                    {
+                        products?.map( (p) => (
+                        <Item key={p.id}>
+                            <Produto>
+                                <img src={p.product.image} alt="product"/>
+                                <div className="descricaoProduto">
+                                    <h2>{p.product.title}</h2>
+                                    <p>{p.product.description}</p>
+                                </div>  
+                            </Produto>     
+                            <Quantidade>
+                                <p>{p.quantity}</p>
+                            </Quantidade>    
+                            <Preco>
+                            <p>R$ {maskValue(p.unit_price * p.quantity)}</p>
+                            </Preco>          
+                        </Item>
+                    ))
+                    }      
+            </Itens>
+                <ResumoPedido>
+                    <div className="paymentMethod">
+                        <h1>Método de pagamento</h1>
+                        <div>
+                            <input 
+                                type="radio" 
+                                name="option_payment" 
+                                value="card"
+                                onChange={(e) =>  {setmethodPayment(e.target.value)}}
+                            />
+                            <img src={card}/>
+                            <span>Cartão de crédito</span>                                            
+                        </div>
+                        <div>
+                            <input 
+                                type="radio" 
+                                name="option_payment" 
+                                value="pix"
+                                onChange={(e) =>  {setmethodPayment(e.target.value)}}
+                            />
+                            <img src={pix}/>
+                            <span>Pix QRcode</span>                                            
+                        </div> 
                     </div>
-                    <div>
-                        <input 
-                            type="radio" 
-                            name="option_payment" 
-                            value="pix"
-                            onChange={(e) =>  {setmethodPayment(e.target.value)}}
-                        />
-                        <img src={pix}/>
-                        <span>Pix QRcode</span>                                            
-                    </div> 
-                </div>
-                <div className="resumo">
-                    <h1>Quantidade total</h1>
-                    <p>4 itens</p>                             
-                </div>
-                <div className="total">
-                    <h1>Total a doar: </h1>
-                    <p> R$ 20,00</p>
-                    <button onClick={() => navigate(`/payment/${methodPayment}`)}>Realizar pedido</button>
-                </div>
-            </ResumoPedido>
-        </ContainerDetails>
+                    <div className="resumo">
+                        <h1>Quantidade total</h1>
+                        <p>{calculatorquantity(products)}</p>                             
+                    </div>
+                    <div className="total">
+                        <h1>Total a doar: </h1>
+                        <p>R$ {maskValue(request.total)}</p>
+                        <button onClick={validateToken}>Realizar pedido</button>
+                    </div>
+                </ResumoPedido>
+            </ContainerDetails>
+            <Footer/>
+        </>
     )
 }
 
@@ -139,12 +147,13 @@ const HeaderItens = styled.div`
     }
 `
 const Item = styled.div`
-    /* background-color: pink; */
     height: 120px;
     border-bottom: 1px solid #543f7b;
     color: black;
     padding-top: 15px;
     display: flex;
+    overflow: scroll;
+    overflow-y: hidden;
 `
 const Produto = styled.div`
     line-height: 1.5;

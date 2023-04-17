@@ -2,8 +2,11 @@ import { useState } from 'react';
 import Cards from 'react-credit-cards-2';
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
 import styled from 'styled-components';
+import { toast } from 'react-toastify';
+import api from "../../../../services/server";
 
-export default function Card(){
+export default function Card( { requestId, total, donatary } ){
+    const user = JSON.parse(localStorage.getItem("user"))
     const [state, setState] = useState({
         number: '',
         expiry: '',
@@ -21,10 +24,29 @@ export default function Card(){
       const handleInputFocus = (evt) => {
         setState((prev) => ({ ...prev, focus: evt.target.name }));
       }
+
+      async function requestPayment(e) {
+        e.preventDefault();
+        try {
+          await api.patch(`/request/payment/${requestId}`, {}, { headers: { 'Authorization': `Bearer ${user.token}`}})
+          toast('Doação realizada com sucesso')
+        } catch (error) {
+            toast('Ops... Algo deu errado, tente mais tarde.')
+        }
+    }
     
       return (
         <DadosCartao>
-           <FormCard>
+           <div className='cardContainer'>
+            <Cards
+               number={state.number}
+               expiry={state.expiry}
+               cvc={state.cvc}
+               name={state.name}
+               focused={state.focus}
+            />
+          </div>
+           <FormCard onSubmit={requestPayment}>
             <input
                 type="tel"
                 name="number"
@@ -34,6 +56,7 @@ export default function Card(){
                 value={state.number}
                 onChange={handleInputChange}
                 onFocus={handleInputFocus}
+                required="required"
             />
             <input
                 type="text"
@@ -44,6 +67,7 @@ export default function Card(){
                 value={state.name}
                 onChange={handleInputChange}
                 onFocus={handleInputFocus}
+                required="required"
             />
             <input
                 type="text"
@@ -54,6 +78,7 @@ export default function Card(){
                 value={state.expiry}
                 onChange={handleInputChange}
                 onFocus={handleInputFocus}
+                required="required"
             />
             <input
                 type="tel"
@@ -64,15 +89,11 @@ export default function Card(){
                 value={state.cvc}
                 onChange={handleInputChange}
                 onFocus={handleInputFocus}
+                required="required"
             />
+             <button>FINALIZAR PAGAMENTO</button>
           </FormCard>
-          <Cards
-               number={state.number}
-               expiry={state.expiry}
-               cvc={state.cvc}
-               name={state.name}
-               focused={state.focus}
-            />
+         
         </DadosCartao>
       );
 }
@@ -82,14 +103,24 @@ const DadosCartao = styled.div`
   border: 2px solid #a359a0;
   border-radius: 5px;
   width: 100%;
+  border: none;
   display: flex;
   align-items: center;
-  height: 40%;
+  justify-content: space-around;
+  border: 1px solid #a359a0;
+  gap: 15px;
+  padding: 1rem;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    /* background-color: #ffffff; */
+  }
+  div {
+    margin: 0;
+  }
 `
 const FormCard = styled.form`
-  width: 50%;
+  width: 20rem;
   height: 80%;
-  margin-left: 3rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -100,4 +131,13 @@ const FormCard = styled.form`
    border-radius: 5px;
    border: 1px solid #f4f4f4;
   }
+  button{
+        width: 20rem;
+        height: 2.5rem;
+        border-radius: 5px;
+        border: none;
+        background-color: #a359a0;
+        color: #f4f4f4;
+        margin-top: 2rem;
+    }
 `

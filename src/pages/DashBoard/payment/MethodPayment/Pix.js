@@ -1,14 +1,18 @@
 import styled from "styled-components"
 import { PixQRCode, PixParams } from "pix-react"
 import { useState } from "react"
-import { useEffect } from "react";
+import api from "../../../../services/server";
+import { toast } from "react-toastify"
+import maskValue from "../../../../helps/maskvalue";
 
-export default function Pix(){
+
+export default function Pix({ requestId, total, donatary }){
+  const user = JSON.parse(localStorage.getItem("user"))
   const [dadosPix, setDadosPix] = useState({
         chave: '',
         cidade: 'default',
-        recebedor: '',
-        valor: 0,
+        recebedor: donatary,
+        valor: total,
         identificador: '1234',
         mensagem: ''
   })
@@ -18,25 +22,20 @@ export default function Pix(){
     setDadosPix({...dadosPix, [name]: name==='valor'? parseFloat(value): value})
   }
 
+  async function requestPayment(e) {
+    console.log(requestId.requestId)
+    e.preventDefault();
+    try {
+        await api.patch(`/request/payment/${requestId}`, {}, { headers: { 'Authorization': `Bearer ${user.token}`}})
+        toast('Doação realizada com sucesso')
+    } catch (error) {
+        toast('Ops... Algo deu errado, tente mais tarde.')
+    }
+  } 
+
   return(
     <DadosPix>
-      <form autoComplete="off">
-        <div class="row">
-          <div class="col">
-            <input type="text" class="form-control" placeholder="Chave pix" name="chave" value={dadosPix.chave} onChange={handlePix}/>
-          </div>
-          <div class="col">
-            <input type="text" class="form-control" placeholder="Recebedor" name="recebedor" value={dadosPix.recebedor} onChange={handlePix}/>
-          </div>
-          <div class="col">
-            <input type="text" class="form-control" placeholder="Valor" name="valor" value={dadosPix.valor} onChange={handlePix}/>
-          </div>
-          <div class="col">
-            <input type="text" class="form-control" placeholder="Mensagem" name="mensagem" value={dadosPix.mensagem} onChange={handlePix}/>
-          </div>
-        </div>
-      </form>
-      <Qrcode>
+        <Qrcode>
         <div>
           <PixQRCode 
               pixParams={dadosPix}
@@ -46,6 +45,24 @@ export default function Pix(){
           />
         </div>
       </Qrcode>
+      <form onSubmit={requestPayment} autoComplete="off">
+        <div class="row">
+          <div class="col">
+            <input required="required" type="text" class="form-control" placeholder="Chave pix" name="chave" value={dadosPix.chave} onChange={handlePix}/>
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" name="recebedor" value={dadosPix.recebedor} disabled/>
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" name="valor" value={(maskValue(total))} disabled/>
+          </div>
+          <div class="col">
+            <input required="required" type="text" class="form-control" placeholder="Mensagem (Opcional)" name="mensagem" value={dadosPix.mensagem} onChange={handlePix}/>
+          </div>
+        </div>
+        <button>FINALIZAR PAGAMENTO</button>
+      </form>
+    
     </DadosPix>
   )
 }
@@ -57,14 +74,34 @@ const DadosPix = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
-  height: 45%;
+  padding: 1rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    /* background-color: #ffffff; */
+  }
+  div {
+    margin: 0;
+  }
+
   form{
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
     width: 60%;
     .form-control{
       width: 18rem;
       margin: 10px auto 10px auto;
+    }
+    button{
+        width: 18rem;
+        height: 2.5rem;
+        border-radius: 5px;
+        border: none;
+        background-color: #a359a0;
+        color: #f4f4f4;
+        margin-top: 2rem;
     }
   }
 `

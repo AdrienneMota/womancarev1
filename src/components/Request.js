@@ -2,9 +2,10 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import icondoacao from '../assets/img/doacao.png'
 import iconburterfly from '../assets/img/buterflyicon.png'
+import maskValue from '../helps/maskvalue';
 
 export default function Request({ total, donatory, giver, idRequest}) {
-  let status = !!giver // transforma para booleano inverso e depois transformar para o booleano verdadeiro é uma forma de transformar um valor em booleano
+  let status = !!giver 
   const navigate = useNavigate()
  
   return (
@@ -19,7 +20,7 @@ export default function Request({ total, donatory, giver, idRequest}) {
             </li>
             <li>
               <ion-icon name="ticket"></ion-icon>
-              <span>{total}</span> 
+              <span> R$ {maskValue(total)}</span> 
             </li>
             {
               status? 
@@ -85,7 +86,6 @@ const Card = styled.div`
       img{
         width: 50px;
         height: 49px;
-        /* margin-left: 6rem; */
       }
     }
 `

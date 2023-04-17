@@ -4,80 +4,42 @@ import Request from "../../components/Request"
 import api from "../../services/server"
 import banner from '../../assets/img/banner.png'
 import TitleSession from "../../components/TitleSession"
+import Header from "../../components/Header"
+import Footer from "../../components/Footer"
 
 export default function Home(){
-  const requests = [
-    {
-      id: 1,
-      giver_id: null,
-      donatory_id: 1,
-      total: 40.00,
-      donatory: { user_name: 'Joana' }
-    },
-    {
-      id: 2,
-      giver_id: null,
-      donatory_id: 1,
-      total: 40.00,
-      donatory: { user_name: 'Maria' }
-    },
-    {
-      id: 3,
-      giver_id: null,
-      donatory_id: 1,
-      total: 40.00,
-      donatory: { user_name: 'Antonia' }
-    },
-    {
-      id: 4,
-      giver_id: null,
-      donatory_id: 1,
-      total: 40.00,
-      donatory: { user_name: 'Eduarda' }
-    },
-    {
-      id: 5,
-      giver_id: null,
-      donatory_id: 1,
-      total: 40.00,
-      donatory: { user_name: 'Joaquina' }
-    },
-    {
-      id: 6,
-      giver_id: null,
-      donatory_id: 1,
-      total: 40.00,
-      donatory: { user_name: 'Eveline' }
+  const [requests, setRequests] = useState([])
+
+  async function getAllRequests() {
+    try {
+      const response = await api.get('/requests')
+      setRequests(response.data)  
+      console.log(response.data)
+    } catch (error) {
+      console.log(error)
     }
-  ]
-  // const [requests, setRequests] = useState([])
+  }
 
-  // async function getAllRequests() {
-  //   try {
-  //     const response = await api.get('/requests')
-  //     setRequests(response.data)  
-  //     console.log(response.data)
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   getAllRequests()
-  //   }, [])
+  useEffect(() => {
+    getAllRequests()
+    }, [])
 
   return(
-    <Container>
-      <Banner src={banner}/>
-      <TitleSession/>
-      <RequestsContainer>
-        {
-          requests?.map( (r) => (
-            <Request key={`requests-container-${r.id}`} total={r.total} donatory={r.donatory.user_name} giver={r.giver_id} idRequest={r.id}/>
-          ))
-        }        
-      </RequestsContainer>
-    </Container>   
+    <>
+      <Header/>
+      <Container>
+        <Banner src={banner}/>
+        <TitleSession/>
+        <RequestsContainer>
+          {
+            requests?.map( (r) => (
+              <Request key={`requests-container-${r.id}`} total={r.total} donatory={r.donatory.user_name} giver={r.giver_id} idRequest={r.id}/>
+            ))
+          }        
+        </RequestsContainer>
+      </Container>
+      <Footer/>
+    </>   
     )
 }
 

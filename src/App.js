@@ -1,11 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Header from './components/Header'
-import Home from "./pages/DashBoard/Home";
 import RequestedDetails from "./pages/DashBoard/RequestedDetails";
 import Payment from "./pages/DashBoard/payment/Payment";
 import { ToastContainer } from "react-toastify";
 import { GlobalStyle } from "./assets/style/GlobalStyle";
-import Footer from "./components/Footer";
+import Signup from "./pages/User/Signup";
+import Home from "./pages/DashBoard/Home";
+import Signin from "./pages/User/Signin";
+import { AuthProvider } from "./hook/authContext";
 
 function App() {
   return (
@@ -13,13 +14,15 @@ function App() {
       <ToastContainer />      
       <BrowserRouter>
         <GlobalStyle/>
-        <Header/>
+        <AuthProvider>
         <Routes>
+          <Route path="/signin" element={<Signin/>}/>
+          <Route path="/signup" element={<Signup/>}/>
           <Route path="/" element={<Home/>}/>
           <Route path="/details/:requestId" element={<RequestedDetails/>}/>
-          <Route path="/payment/:methodPayment" element={<Payment/>}/>
+          <Route path="/payment/:methodPayment/:giver_id" element={<Payment/>}/>
         </Routes>
-        <Footer/>
+        </AuthProvider>
       </BrowserRouter>
     </>
   );
