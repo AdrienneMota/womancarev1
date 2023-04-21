@@ -7,6 +7,7 @@ import Signup from "./pages/User/Signup";
 import Home from "./pages/DashBoard/Home";
 import Signin from "./pages/User/Signin";
 import { AuthProvider } from "./hook/authContext";
+import Sobre from "./pages/Sobre";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/signin" element={<Signin/>}/>
           <Route path="/signup" element={<Signup/>}/>
           <Route path="/" element={<Home/>}/>
+          <Route path="/about" element={<Sobre/>}/>
           <Route path="/details/:requestId" element={<RequestedDetails/>}/>
           <Route path="/payment/:methodPayment/:giver_id" element={<Payment/>}/>
         </Routes>

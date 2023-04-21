@@ -17,7 +17,9 @@ export default function Payment() {
             <ContainerMethod>
                {
                 (methodPayment==="pix")?
-                    <Pix requestId={requestId} total={total} donatary={donatary}></Pix> : <Card requestId={requestId} total={total} donatary={donatary} ></Card>  
+                    <Pix requestId={requestId} total={total} donatary={donatary}></Pix> 
+                    : 
+                    <Card requestId={requestId} total={total} donatary={donatary} ></Card>  
                 }  
             </ContainerMethod>
             <Footer/>
@@ -26,11 +28,13 @@ export default function Payment() {
 }
 
 const ContainerMethod = styled.div`
-    width: 90vw;
+    width: 100vw;
     height: 100vh;
     font-size: 'Roboto', sans-serif;
     padding: 10px;
-    margin-top: 5.5rem;
     margin-left: auto;
     margin-right: auto;
+    @media (max-width: 650px){
+        background-color: #D7A7FC;
+    }
 `

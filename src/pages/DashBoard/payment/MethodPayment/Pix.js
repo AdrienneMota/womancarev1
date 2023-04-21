@@ -71,17 +71,16 @@ const DadosPix = styled.div`
   background-color: #D7A7FC;
   border: 2px solid #a359a0;
   border-radius: 5px;
-  width: 100%;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
   align-items: center;
   padding: 1rem;
-
-  @media (max-width: 768px) {
+  margin-top: 5.5rem;
+  @media (max-width: 1110px) {
     flex-direction: column;
-    /* background-color: #ffffff; */
-  }
-  div {
-    margin: 0;
+    border: none;
   }
 
   form{

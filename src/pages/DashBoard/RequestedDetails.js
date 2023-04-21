@@ -29,8 +29,10 @@ export default function RequestedDetails() {
         }        
     }
     
-    function validateToken() {
-        if(user.token === undefined){
+    function validate() {
+        if(!methodPayment){
+            toast("Escolha um método de pagamento.")
+        }else if(user?.token === undefined){
             toast("Realize o login para esta operação.")
         }else{
             navigate(`/payment/${methodPayment}/${request.id}`, {state: { total: request.total, donatary: request.donatory.user_name}})
@@ -66,7 +68,7 @@ export default function RequestedDetails() {
                                 <p>{p.quantity}</p>
                             </Quantidade>    
                             <Preco>
-                            <p>R$ {maskValue(p.unit_price * p.quantity)}</p>
+                            <p>{`R$ ${maskValue(p.unit_price * p.quantity)}`}</p>
                             </Preco>          
                         </Item>
                     ))
@@ -103,7 +105,7 @@ export default function RequestedDetails() {
                     <div className="total">
                         <h1>Total a doar: </h1>
                         <p>R$ {maskValue(request.total)}</p>
-                        <button onClick={validateToken}>Realizar pedido</button>
+                        <button onClick={validate}>Realizar pedido</button>
                     </div>
                 </ResumoPedido>
             </ContainerDetails>
@@ -152,8 +154,16 @@ const Item = styled.div`
     color: black;
     padding-top: 15px;
     display: flex;
-    overflow: scroll;
     overflow-y: hidden;
+    @media (max-width: 554px) {
+        .descricaoProduto{
+            p{
+                display: none;
+            }
+        }
+    }
+   
+
 `
 const Produto = styled.div`
     line-height: 1.5;
@@ -180,7 +190,6 @@ const Quantidade = styled.div`
         margin: 0px auto;
         text-align: center;
         padding-top: 0.5rem;
-        /* border: 2px solid #543f7b; */
         border-radius: 5px;
         width: 58px;
         height: 40px;

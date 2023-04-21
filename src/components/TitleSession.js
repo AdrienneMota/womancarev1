@@ -1,12 +1,5 @@
 import styled from 'styled-components'
 
-export default function TitleSession() {
-    <Title>
-         <p>Doe agora</p>
-        <div></div>
-    </Title>
-}
-
 const Title = styled.div`
   display: flex;
   flex-direction: column;
@@ -14,7 +7,7 @@ const Title = styled.div`
   justify-content:space-around;
   width: 100%;
   height: 50px;
-  margin-top: 2rem;
+  margin-top: 4rem;
   color: #543f7b;
   font-family: 'Roboto', sans-serif;  
   font-size: 30px;
@@ -24,3 +17,4 @@ const Title = styled.div`
     background-color: #543f7b;
   }
 `
+export default Title

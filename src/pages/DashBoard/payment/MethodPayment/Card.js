@@ -102,7 +102,10 @@ const DadosCartao = styled.div`
   background-color: #D7A7FC;
   border: 2px solid #a359a0;
   border-radius: 5px;
-  width: 100%;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5.5rem;
   border: none;
   display: flex;
   align-items: center;
@@ -110,9 +113,11 @@ const DadosCartao = styled.div`
   border: 1px solid #a359a0;
   gap: 15px;
   padding: 1rem;
-  @media (max-width: 768px) {
+  @media (max-width: 1110px) {
     flex-direction: column;
-    /* background-color: #ffffff; */
+  }
+  @media (max-width: 650px) {
+    border: none;
   }
   div {
     margin: 0;

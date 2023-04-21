@@ -3,7 +3,6 @@ import styled from "styled-components"
 import Request from "../../components/Request"
 import api from "../../services/server"
 import banner from '../../assets/img/banner.png'
-import TitleSession from "../../components/TitleSession"
 import Header from "../../components/Header"
 import Footer from "../../components/Footer"
 
@@ -29,7 +28,6 @@ export default function Home(){
       <Header/>
       <Container>
         <Banner src={banner}/>
-        <TitleSession/>
         <RequestsContainer>
           {
             requests?.map( (r) => (

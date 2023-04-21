@@ -11,8 +11,8 @@ export default function Header() {
 
   async function signOut() {
     try {
-      await api.delete('/signout', { headers: { 'Authorization': `Bearer ${user.token}`}})
-      navigate('/signin') 
+      await api.delete('/signout', { headers: { 'Authorization': `Bearer ${user?.token}`}})
+      navigate('/') 
       localStorage.clear()
       setUser({
         id: undefined,
@@ -24,6 +24,24 @@ export default function Header() {
     }
   }
 
+  if(user?.token){
+    return (
+      <NavBar>
+        <Container>
+          <Logo onClick={() => navigate('/')}>
+          <img src={burterfly} alt='borboleta'/>
+          <h1>womancare</h1>
+          </Logo>
+            <Links>
+              <Link className='linkstyle' to='/'>Home</Link>
+              <Link className='linkstyle' to='/about'>Sobre</Link>
+              <Link className='linkstyle' onClick={() => signOut()}>Sair</Link>
+            </Links>
+        </Container>
+      </NavBar> 
+    )
+  }
+
   return (
     <NavBar>
       <Container>
@@ -33,8 +51,8 @@ export default function Header() {
         </Logo>
           <Links>
             <Link className='linkstyle' to='/'>Home</Link>
-            <Link className='linkstyle'>Sobre</Link>
-            <button className='linkstyle' onClick={() => signOut()}>Sair</button>
+            <Link className='linkstyle' to='/about'>Sobre</Link>
+            <Link className='linkstyle' to='/signin'>Entre ou cadastre-se </Link>
           </Links>
       </Container>
     </NavBar>
@@ -51,7 +69,6 @@ const NavBar = styled.div`
   align-items:center;
   justify-content: center;
   background-color: #ffffff;
-
 `
 const Container = styled.div`
   width: 95%;
@@ -60,11 +77,16 @@ const Container = styled.div`
   display: flex;
   align-items:  center;
   justify-content: space-between;
+  @media (max-width: 410px) {
+    width: 100%;
+  }
+
 `
 const Logo = styled.div`
   height: 2rem;
   width: 200px;
   display: flex;
+  cursor: pointer;
   h1{
     font-size: 32px;
     font-family: 'Alkatra', cursive;;
@@ -75,14 +97,26 @@ const Logo = styled.div`
     width: 40px;
     height: 32px;
   }
+  @media (max-width: 410px) {
+    img{
+      width: 20px;
+      height: 12px;
+    }
+    h1{
+    font-size: 32px;
+    font-family: 'Alkatra', cursive;;
+    font-weight: bold;
+    color: #543f7b;
+  }
+  }
 `
 const Links = styled.div`
-  width: 30%;
+  width: 50%;
   display: flex;
   align-items:  center;
   justify-content: space-around;
   .linkstyle{
-    width: 3rem;
+    width: 10rem;
     padding: 5px;
     background-color: #ffffff;
     color: #6e427b;
@@ -93,8 +127,5 @@ const Links = styled.div`
     border-radius: 5px;
     text-align: center;
   }
-  .linkstyle:hover{
-      background-color: #6e427b;
-      color: #ffffff;
-    }
 `
+

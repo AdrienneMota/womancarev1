@@ -3,9 +3,11 @@ import styled from 'styled-components';
 import icondoacao from '../assets/img/doacao.png'
 import iconburterfly from '../assets/img/buterflyicon.png'
 import maskValue from '../helps/maskvalue';
+import { useState } from 'react';
 
 export default function Request({ total, donatory, giver, idRequest}) {
   let status = !!giver 
+  // const [btnAtivo, setBtnAtivo] = useState('button-doacao')
   const navigate = useNavigate()
  
   return (
@@ -36,7 +38,7 @@ export default function Request({ total, donatory, giver, idRequest}) {
             }                  
           </ul>
         </div>
-        <button className="button-doacao" onClick={() => navigate(`/details/${idRequest}`)}>
+        <button className="button-doacao" disabled={status } onClick={() => navigate(`/details/${idRequest}`)}>
           <img src={icondoacao}/>
         </button>
       </Card>

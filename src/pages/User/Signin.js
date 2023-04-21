@@ -50,7 +50,7 @@ export default function Signin(){
                 required="required"
             />
             <input
-                type="text"
+                type="password"
                 name="password"
                 placeholder="Senha"               
                 value={data.password}

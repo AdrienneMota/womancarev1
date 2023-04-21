@@ -62,7 +62,7 @@ export default function Signup(){
                 required="required"
             />
             <input
-                type="text"
+                type="password"
                 name="password"
                 placeholder="Senha"               
                 value={data.password}
